@@ -1,28 +1,21 @@
 ---
 # tasks file for ansible-role-disk-scheduler
 #
+ - name: get list of block devices to test
+   shell: ls /sys/block/ | egrep '^([shv]|xv])d[a-z]$'
+   register: block_devs
+   changed_when: no
 
-#        "ansible_devices": {
-#            "sdy": {
-#                "holders": [],
-#                "host": "Serial Attached SCSI controller: Hewlett-Packard Company Smart Array Gen9 Controllers (rev 01)",
-#                "model": "MB4000FCWDK",
-#                "partitions": {},
-#                "removable": "0",
-#                "rotational": "1",
-#                "scheduler_mode": "deadline",
-#                "sectors": "7814037168",
-#
+ - name: test if block device using variable disk_scheduler as i/o scheduler
+   shell: cat /sys/block/{{ item }}/queue/scheduler | egrep -q '\[{{ disk_scheduler }}\]'
+   with_items: block_devs.stdout_lines
+   register: noop_test
+   changed_when: noop_test.rc == 1
+   failed_when: noop_test.rc == 2
 
- - name: print devices
-   debug: var=item
-   with_items: [ "{{ ansible_devices }}" ]
-   register: reg_disk_results
-   always_run: True
-
- - name: print schedulers2
-   debug: var=item
-   with_nested:
-     - [ "{{ ansible_devices }}" ]
-
+ - name: set block device to use variable disk_scheduler as i/o scheduler
+   sudo: yes
+   shell: echo {{ disk_scheduler }} > /sys/block/{{ item }}/queue/scheduler
+   with_items: block_devs.stdout_lines
+   when: noop_test.changed
 

@@ -1,7 +1,7 @@
 ansible-role-disk-scheduler
 =========
 
-Configures IO scheduler on the disks (noop, deadline, cfq, etc)
+Configures IO scheduler on all the disks (common option: noop, deadline or cfq)
 
 Requirements
 ------------
@@ -36,3 +36,4 @@ MIT
 Author Information
 ------------------
 
+Inspiration taken from https://gist.github.com/keithchambers/80b60559ad83cebf1672

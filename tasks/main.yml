@@ -2,5 +2,27 @@
 # tasks file for ansible-role-disk-scheduler
 #
 
- - name: print what the current disk scheduler is
-   debug: var=ansible_devices 
+#        "ansible_devices": {
+#            "sdy": {
+#                "holders": [],
+#                "host": "Serial Attached SCSI controller: Hewlett-Packard Company Smart Array Gen9 Controllers (rev 01)",
+#                "model": "MB4000FCWDK",
+#                "partitions": {},
+#                "removable": "0",
+#                "rotational": "1",
+#                "scheduler_mode": "deadline",
+#                "sectors": "7814037168",
+#
+
+ - name: print devices
+   debug: var=item
+   with_items: [ "{{ ansible_devices }}" ]
+   register: reg_disk_results
+   always_run: True
+
+ - name: print schedulers2
+   debug: var=item
+   with_nested:
+     - [ "{{ ansible_devices }}" ]
+
+

@@ -8,7 +8,7 @@
 
  - name: test if block device using variable disk_scheduler as i/o scheduler
    shell: cat /sys/block/{{ item }}/queue/scheduler | egrep -q '\[{{ disk_scheduler }}\]'
-   with_items: block_devs.stdout_lines
+   with_items: "{{ block_devs.stdout_lines }}"
    register: noop_test
    changed_when: noop_test.rc == 1
    failed_when: noop_test.rc == 2
@@ -16,6 +16,6 @@
  - name: set block device to use variable disk_scheduler as i/o scheduler
    sudo: yes
    shell: echo {{ disk_scheduler }} > /sys/block/{{ item }}/queue/scheduler
-   with_items: block_devs.stdout_lines
+   with_items: "{{ block_devs.stdout_lines }}"
    when: noop_test.changed
 

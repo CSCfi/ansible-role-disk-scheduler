@@ -14,7 +14,7 @@
    failed_when: noop_test.rc == 2
 
  - name: set block device to use variable disk_scheduler as i/o scheduler
-   sudo: yes
+   become: yes
    shell: echo {{ disk_scheduler }} > /sys/block/{{ item }}/queue/scheduler
    with_items: "{{ block_devs.stdout_lines }}"
    when: noop_test.changed

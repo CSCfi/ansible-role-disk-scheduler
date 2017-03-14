@@ -5,6 +5,7 @@
    shell: ls /sys/block/ | egrep '^([shv]|xv])d[a-z]$'
    register: block_devs
    changed_when: no
+   check_mode: no
 
  - name: test if block device using variable disk_scheduler as i/o scheduler
    shell: cat /sys/block/{{ item }}/queue/scheduler | egrep -q '\[{{ disk_scheduler }}\]'

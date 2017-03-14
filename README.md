@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-disk-scheduler.svg?branch=master)](https://travis-ci.org/CSC-IT-Center-for-Science/ansible-role-disk-scheduler)
+
 ansible-role-disk-scheduler
 =========
 

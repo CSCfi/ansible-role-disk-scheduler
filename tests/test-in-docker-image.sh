@@ -124,7 +124,7 @@ function main(){
     test_playbook_syntax
     test_playbook
     test_playbook_check
-    extra_tests
+#    extra_tests
 
 }
 

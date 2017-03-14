@@ -38,5 +38,9 @@ ENV ANSIBLE_LIBRARY /opt/ansible/ansible/library
 ENV XDG_CACHE_HOME /tmp/
 RUN source /opt/ansible/ansible/hacking/env-setup
 
+# Create a fake block device
+RUN dd if=/dev/zero of=/tmp/block.20M bs=1M count=20
+RUN mknod /dev/sdaa b 7 200
+RUN losetup /tmp/block.20M /dev/sdaa
 
 CMD /bin/bash

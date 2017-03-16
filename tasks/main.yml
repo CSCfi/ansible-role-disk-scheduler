@@ -2,7 +2,7 @@
 # tasks file for ansible-role-disk-scheduler
 #
  - name: get list of block devices to test
-   shell: ls /sys/block/ | egrep '^([shv]|xv)d[a-z]$'
+   shell: ls /sys/block/ | egrep '^(([shv]|xv)d[a-z])|(nvme[0-9a-z]+)$'
    register: block_devs
    changed_when: no
    check_mode: no

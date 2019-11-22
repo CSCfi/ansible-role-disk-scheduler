@@ -9,13 +9,12 @@ RUN yum clean all && \
     yum -y groups mark convert "Development Tools" && \
     yum -y groupinstall "Development Tools" && \
     yum -y install libffi-devel openssl-devel && \
+    yum -y install dbus-devel dbus-python-devel dbus dbus-glib dbus-glib-devel && \
     yum -y install python-devel MySQL-python sshpass && \
     yum -y install acl sudo && \
     sed -i -e 's/^Defaults.*requiretty/Defaults    !requiretty/' -e 's/^%wheel.*ALL$/%wheel    ALL=(ALL)    NOPASSWD: ALL/' /etc/sudoers && \
     yum -y install PyYAML python-jinja2 python-httplib2 python-keyczar python-paramiko python-setuptools git python-pip && \
-    pip install --upgrade pip && \
-    pip install requests[security] && \
-    pip install pyrax pysphere boto boto3 passlib dnspython && \
+    pip install pysphere passlib dnspython && \
     sh -c 'yum -y remove libffi-devel || yum -y --setopt=tsflags=noscripts remove libffi-devel' && \
     yum -y remove $(rpm -qa "*-devel") && \
     yum -y groupremove "Development tools" && \
@@ -28,6 +27,7 @@ RUN echo -e '[local]\nlocalhost\n' > /etc/ansible/hosts
 RUN mkdir /opt/ansible/
 RUN git clone http://github.com/ansible/ansible.git /opt/ansible/ansible
 WORKDIR /opt/ansible/ansible
+# here one could checkout a specific commit
 #RUN git checkout f4af154beff2b281e464b616f504293d67187da5
 RUN git submodule update --init
 ENV PATH /opt/ansible/ansible/bin:/bin:/usr/bin:/sbin:/usr/sbin
